@@ -60,27 +60,31 @@ namespace Wiwi.ScheduleCenter.Common.Filters
             {
                 if (context.Result is ObjectResult objectResult)
                 {
-                    context.Result = new ObjectResult(new MessageOutput<object>()
+                    context.Result = new ObjectResult(new ApiResult<object>()
                     {
-                        response = objectResult.Value,
-                        status = MessageStatus.Success
+                        Code = objectResult.StatusCode ?? 0,
+                        Data = objectResult.Value,
+                        Success = true
                     });
                 }
                 else if (context.Result is ContentResult contentResult)
                 {
                     context.Result = new ObjectResult(
-                        new MessageOutput<object>()
+                        new ApiResult<object>()
                         {
-                            status = MessageStatus.Success,
-                            response = contentResult.Content,
+                            Code = contentResult.StatusCode ?? 0,
+                            Message = "",
+                            Data = contentResult.Content,
+                            Success = true
                         });
                 }
                 else if (context.Result is StatusCodeResult statusCodeResult)
                 {
                     context.Result = new ObjectResult(
-                        new MessageOutput()
+                        new ApiResult()
                         {
-                            status = MessageStatus.Success,
+                            Code = statusCodeResult.StatusCode,
+                            Message = ""
                         });
                 }
             }

@@ -49,10 +49,6 @@ namespace Wiwi.ScheduleCenter.Core.QuartzHost
 
                 string requestBody = string.Empty;
                 string url = httpOption.RequestUrl;
-                //if (httpOption.ContentType == "application/json")
-                //{
-                //    requestBody = httpOption.Body?.Replace("\r\n", "");
-                //}
                 requestBody = httpOption.Body?.Replace("\r\n", "");
                 _option.RequestUrl = url;
                 _option.Body = requestBody;

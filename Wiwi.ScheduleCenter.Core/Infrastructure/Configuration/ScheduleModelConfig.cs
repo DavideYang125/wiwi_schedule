@@ -24,7 +24,6 @@ namespace Wiwi.ScheduleCenter.Core.Infrastructure.Configuration
             builder.Property(x => x.Deleted).IsRequired();
             builder.Property(x => x.RequestUrl).IsRequired().HasMaxLength(200);
             builder.Property(x => x.Body);
-            builder.ToTable("sc_schedule");
         }
     }
 }

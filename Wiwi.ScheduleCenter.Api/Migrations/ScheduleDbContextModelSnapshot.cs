@@ -128,7 +128,7 @@ namespace Wiwi.ScheduleCenter.Api.Migrations
 
                     b.HasKey("ScheduleId");
 
-                    b.ToTable("sc_schedule", (string)null);
+                    b.ToTable("ScheduleModel", (string)null);
                 });
 #pragma warning restore 612, 618
         }

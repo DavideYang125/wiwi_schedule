@@ -181,7 +181,7 @@ namespace Wiwi.ScheduleCenter.Api.Serivces.Schedule
 
         public async Task<bool> StartAsync(StartRequest request)
         {
-            bool exist = await QuartzManager.CheckExist(request.ScheduleId);
+            //bool exist = await QuartzManager.TestCheckExist(request.ScheduleId);
 
             var schedule = await _db.Schedules.Where(x => x.ScheduleId == request.ScheduleId && !x.Deleted).FirstOrDefaultAsync();
             if (schedule is null)

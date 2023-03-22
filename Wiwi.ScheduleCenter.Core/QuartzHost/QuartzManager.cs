@@ -18,14 +18,9 @@ namespace Wiwi.ScheduleCenter.Core.QuartzHost
     {
         private static ILogger<QuartzManager> _logger;
 
-        public QuartzManager(ILogger<QuartzManager> logger)
+        static QuartzManager()
         {
-            var logd = LoggerFactory.Create(builder =>
-            {
-                //builder.AddConsole();
-                //builder.AddDebug();
-            }).CreateLogger<QuartzManager>();
-            _logger = logd;
+            _logger = ServiceProviderHelper.GetService<ILogger<QuartzManager>>();
         }
 
         private static IScheduler _scheduler = null;
@@ -61,16 +56,16 @@ namespace Wiwi.ScheduleCenter.Core.QuartzHost
                     await _scheduler.Clear();
                     await _scheduler.Shutdown();
                 }
-                Console.WriteLine("任务调度服务已经停止");
-                //_logger.LogInformation("任务调度服务已经停止");
+                //Console.WriteLine("任务调度服务已经停止");
+                _logger.LogInformation("任务调度服务已经停止");
             }
             catch (Exception ex)
             {
-                //_logger.LogError($"任务调度服务关闭失败", ex.ToString());
+                _logger.LogError($"任务调度服务关闭失败", ex.ToString());
             }
         }
 
-        public static async Task<bool> CheckExist(string sid)
+        public static async Task<bool> TestCheckExist(string sid)
         {
             var jobKey = new JobKey(sid.ToLower());
             if (await _scheduler.CheckExists(jobKey))
@@ -107,8 +102,8 @@ namespace Wiwi.ScheduleCenter.Core.QuartzHost
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"任务{sid}启动失败。异常：{ex.ToString()}");
-                //_logger.LogError($"任务{sid}启动失败。异常：{ex.ToString()}");
+                //Console.WriteLine($"任务{sid}启动失败。异常：{ex.ToString()}");
+                _logger.LogError($"任务{sid}启动失败。异常：{ex.ToString()}");
                 return false;
             }
         }
@@ -146,14 +141,7 @@ namespace Wiwi.ScheduleCenter.Core.QuartzHost
                 }
             }
             catch (Exception ex) { throw new SchedulerException(ex); }
-            try
-            {
-                Console.WriteLine($"任务[{schedule.Main.ShcheduleName}]启动成功，任务Id：{schedule.Main.ScheduleId}！");
-                //_logger.LogInformation($"任务[{schedule.Main.ShcheduleName}]启动成功，任务Id：{schedule.Main.ScheduleId}！");
-            }
-            catch (Exception ex) { 
-            
-            }
+            _logger.LogInformation($"任务[{schedule.Main.ShcheduleName}]启动成功，任务Id：{schedule.Main.ScheduleId}！");
         }
 
         private static void RuningRecovery()
@@ -247,8 +235,8 @@ namespace Wiwi.ScheduleCenter.Core.QuartzHost
                 var model = db.Schedules.Where(x => x.ScheduleId == sid && x.Status != (int)ScheduleStatus.Deleted).FirstOrDefault();
                 if (model is null)
                 {
-                    Console.WriteLine($"启动任务时，任务不存在，任务Id:{sid}");
-                    //_logger.LogError($"启动任务时，任务不存在，任务Id:{sid}");
+                    //Console.WriteLine($"启动任务时，任务不存在，任务Id:{sid}");
+                    _logger.LogError($"启动任务时，任务不存在，任务Id:{sid}");
                     throw new CustomException($"启动任务时，任务不存在，任务Id:{sid}");
                 }
                 ScheduleContext context = new ScheduleContext() { Schedule = model };

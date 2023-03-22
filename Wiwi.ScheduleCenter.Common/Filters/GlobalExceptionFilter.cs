@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Wiwi.ScheduleCenter.Common.Enums;
 using Wiwi.ScheduleCenter.Common.Exceptions;
+using Wiwi.ScheduleCenter.Common.Model;
 using Wiwi.ScheduleCenter.Common.Model.Result;
 
 namespace Wiwi.ScheduleCenter.Common.Filters
@@ -28,20 +29,19 @@ namespace Wiwi.ScheduleCenter.Common.Filters
             //判断异常是否已经处理
             if (!context.ExceptionHandled)
             {
-                var myException = GetMyException(context.Exception);
+                var customException = GetCustomException(context.Exception);
                 await Log(context);
-                if (myException != null)
+                if (customException != null)
                 {
-                    var code = myException.Code.GetHashCode();
+                    var code = customException.Code.GetHashCode();
                     if (code.Equals(0))
                     {
                         code = MessageStatus.Error.GetHashCode();
                     }
-                    //MessageOutput<CollectEquipmentDto>.Fail("新增失败");
-                    context.Result = new JsonResult(MessageOutput.Message((MessageStatus)code, myException.Message));
+                    context.Result = new JsonResult(new ApiResult((SystemErrorCode)code, customException.Message));
                 }
                 else
-                    context.Result = new JsonResult(MessageOutput.Message(MessageStatus.Error, "服务异常"));
+                    context.Result = new JsonResult(new ApiResult(SystemErrorCode.SystemError));
 
                 context.ExceptionHandled = true;
             }
@@ -52,13 +52,13 @@ namespace Wiwi.ScheduleCenter.Common.Filters
         /// </summary>
         /// <param name="exception"></param>
         /// <returns></returns>
-        private CustomException GetMyException(Exception exception)
+        private CustomException GetCustomException(Exception exception)
         {
             if (exception == null)
                 return null;
             if (exception is CustomException)
                 return exception as CustomException;
-            return GetMyException(exception.InnerException);
+            return GetCustomException(exception.InnerException);
         }
 
         /// <summary>

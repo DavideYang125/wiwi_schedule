@@ -15,7 +15,7 @@ namespace Wiwi.ScheduleCenter.Api.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "sc_schedule",
+                name: "ScheduleModel",
                 columns: table => new
                 {
                     schedule_id = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false, comment: "主键")
@@ -49,7 +49,7 @@ namespace Wiwi.ScheduleCenter.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_sc_schedule", x => x.schedule_id);
+                    table.PrimaryKey("PK_ScheduleModel", x => x.schedule_id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
         }
@@ -58,7 +58,7 @@ namespace Wiwi.ScheduleCenter.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "sc_schedule");
+                name: "ScheduleModel");
         }
     }
 }

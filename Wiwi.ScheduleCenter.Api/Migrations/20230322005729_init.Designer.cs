@@ -11,7 +11,7 @@ using Wiwi.ScheduleCenter.Core.Infrastructure;
 namespace Wiwi.ScheduleCenter.Api.Migrations
 {
     [DbContext(typeof(ScheduleDbContext))]
-    [Migration("20230321092314_init")]
+    [Migration("20230322005729_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -131,7 +131,7 @@ namespace Wiwi.ScheduleCenter.Api.Migrations
 
                     b.HasKey("ScheduleId");
 
-                    b.ToTable("sc_schedule", (string)null);
+                    b.ToTable("ScheduleModel", (string)null);
                 });
 #pragma warning restore 612, 618
         }
