@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  wiwi.schedulecenter.api:
+     container_name: wiwi.schedulecenter.api
+     #image: ${DOCKER_REGISTRY}/${DOCKER_REGISTRY_NAMESPACE}/kaikuo.schedulecenter.api
+     build:
+       context: ../
+       dockerfile: Wiwi.ScheduleCenter.Api/Dockerfile
+     environment:
+       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+       - DbConfig__ConnectionString=Server=192.168.1.22;Database=scheduledb;;port=3306;Uid=root;Pwd=root;charset=utf8mb4;OldGuids=true;
+     ports:
+       - "8831:80"

@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wiwi.ScheduleCenter.Common"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wiwi.ScheduleCenter.Api", "Wiwi.ScheduleCenter.Api\Wiwi.ScheduleCenter.Api.csproj", "{B3F0B9FD-4E56-4432-9490-A976C8172A88}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{380C84EF-7B36-457F-A81B-F2CB3C48C43A}"
+	ProjectSection(SolutionItems) = preProject
+		build\docker-compose.yaml = build\docker-compose.yaml
+		build\run.sh = build\run.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
